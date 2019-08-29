@@ -4,6 +4,6 @@
 
 Just add a OverlayPlugin LogPaser with the URL :
 
-https://juan-medina.github.io/ffxiv_act_simple_timer
+https://juan-medina.github.io/ffxiv_act_simple_timer/index.html
 
 TBC
