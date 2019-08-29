@@ -1,0 +1,96 @@
+* {
+    font-family: "Meiryo";
+    font-size: 17px;
+}
+
+.buff {
+    border: 0px;            
+    height: 24px;
+    vertical-align: middle;
+}
+
+body, html {
+    margin: 0;
+}
+
+body {
+    margin: 0.2em;
+}
+
+html {
+    height: 100%;
+    overflow: hidden;
+    background-color: transparent;
+}
+
+.resizeHandle {
+    background-image: url(../img/handle.png);
+    background-position: bottom right;
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+    background-color: rgba(0, 0, 150, 0.2);            
+}
+
+* {
+    color: #DED7BE;
+    text-shadow: -1px 0 2px #795516, 0 1px 2px #795516, 1px 0 2px #795516, 0 -1px 2px #795516;
+    font-weight: 300;    
+}
+
+#title {
+    font-size: 21px;
+}
+
+.progress-outer {
+    box-sizing: border-box;
+    position: relative;
+
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(192, 192, 192, 0.75);
+    box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    height: 2em;
+    margin-top: 1px;
+}
+
+.progress-outer:first-child {
+    margin-top: 1px;
+}
+
+.progress-bar {
+    opacity: 0.75;
+    background-color: purple;
+    position: absolute;
+    height: 100%;
+    border-right: 1px solid rgba(255, 255, 255, 0.7);
+    box-sizing: border-box;
+    border-radius: 3px;
+}
+
+.progress-text {
+    position: absolute;
+    width: 100%;
+    display: table;
+    table-layout: fixed;
+    height: 100%;            
+}
+
+.label-left {
+    display: table-cell;
+    text-align: left;
+    vertical-align: middle;
+    padding-left: 0.5em;
+    white-space: nowrap;
+}
+
+.label-right {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+    padding-right: 0.5em;
+    
+    color: #E2EBF5;
+    text-shadow: -1px 0 3px #217AA2, 0 1px 3px #217AA2, 1px 0 3px #217AA2, 0 -1px 3px #217AA2;
+    font-weight: 300;
+    white-space: nowrap;
+}
