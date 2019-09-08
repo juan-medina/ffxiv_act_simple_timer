@@ -1,9 +1,9 @@
 const ENTRY_EFFECT = "effect";
 const ENTRY_CAST = "cast";
 const ENTRY_USE = "use";
-const COLOR_DPS_BUFF = "rgba(127, 0, 0, 0.4)";
-const COLOR_MITIGATION_BUFF = "rgba(0, 0, 127, 0.4)";
-const COLOR_HEAL_BUFF = "rgba(0, 127, 0, 0.4)";
+const COLOR_DPS_BUFF = "rgba(255, 0, 0, 0.4)";
+const COLOR_MITIGATION_BUFF = "rgba(0, 0, 255, 0.4)";
+const COLOR_HEAL_BUFF = "rgba(0, 255, 0, 0.4)";
 
 var TimerEntry = (function (key, name, secs, color, type) {
     this.key = key;
@@ -45,6 +45,8 @@ entries.push(new EffectEntry(13714, "Devilment", 20, COLOR_DPS_BUFF));
 entries.push(new EffectEntry(12514, "Requiescat", 12, COLOR_DPS_BUFF));
 entries.push(new EffectEntry(10151, "Sentinel", 10, COLOR_MITIGATION_BUFF));
 entries.push(new EffectEntry(12510, "Sheltron", 4, COLOR_MITIGATION_BUFF));
+entries.push(new EffectEntry(10155, "Fight or Flight", 25, COLOR_DPS_BUFF));
+entries.push(new EffectEntry(12504, "Hallowed Ground", 10, COLOR_MITIGATION_BUFF));
 
 // WHM
 entries.push(new EffectEntry(12631, "Thin Air", 12, COLOR_HEAL_BUFF));
