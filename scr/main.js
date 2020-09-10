@@ -15,7 +15,7 @@ function createTimestamp() {
     return jsTime;
 }
 
-function checkForTriggers(key, name, type) {
+function checkForTriggers(key, name, type, target) {
     if (entries[key] != null) {
         if (entries[key].type == type) {
             var element = entries[key];
@@ -23,6 +23,7 @@ function checkForTriggers(key, name, type) {
                 color: element.color,
                 expireCount: 0,
                 key: element.key,
+                target: target,
                 name: name,
                 img: element.img,
                 startCount: element.secs,
@@ -70,11 +71,11 @@ document.addEventListener('onLogLine', function (event) {
         const unitIdSub = target.substring(0, 2);
 
         if ( unitIdSub == MOB_SUBID) {
-            checkForTriggers(action, name, ENTRY_ENEMY_EFFECT);
+            checkForTriggers(action, name, ENTRY_ENEMY_EFFECT, target);
         }else if (unitIdSub == PLAYER_SUBID){
             const player = body[8];
             if(player == playerName) {
-                checkForTriggers(action, name, ENTRY_PLAYER_EFFECT);
+                checkForTriggers(action, name, ENTRY_PLAYER_EFFECT, target);
             }
         }
     }
@@ -134,6 +135,10 @@ function update() {
 function processTimerEvent(container, event) {
     var spellTimer = new SpellTimer(event);
 
+    if (duplicated(spellTimer)){
+        return;
+    }
+
     if (spellTimer.getIsExpired()) {
         return;
     };
@@ -189,6 +194,16 @@ function processTimerEvent(container, event) {
     }
 }
 
+function duplicated(spellTimer) {
+    for (var i = 0; i < bars.length; i++) {
+        console.dir()
+        if ( (bars[i].spellTimer.name == spellTimer.name) && (bars[i].spellTimer.target == spellTimer.target ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 function getTimerBarFromList(spellTimer) {
     var uniqueName = TimerBar.createUniqueName(spellTimer);
     for (var i = 0; i < bars.length; i++) {
@@ -203,6 +218,7 @@ var SpellTimer = (function (event) {
     this.color = event.color;
     this.expireCount = event.expireCount;
     this.key = event.key;
+    this.target = event.target;
     this.name = event.name;
     this.startCount = event.startCount;
     this.tooltip = event.tooltip;
