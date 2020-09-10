@@ -15,43 +15,68 @@ function createTimestamp() {
     return jsTime;
 }
 
-function checkForTriggers(message, type) {
-    entries.forEach(element => {
-        if (element.type == type) {
-            if (element.reg.test(message)) {
-                var newTimer = {
-                    color: element.color,
-                    expireCount: 0,
-                    key: element.key,
-                    name: element.name,
-                    img: element.img,
-                    startCount: element.secs,
-                    warningCount: 0,
-                    startTime: createTimestamp()
-                }
-                processTimerEvent(containerDiv, newTimer);
-                update();
-                return;
+function checkForTriggers(key, name, type) {
+    if (entries[key] != null) {
+        if (entries[key].type == type) {
+            var element = entries[key];
+            var newTimer = {
+                color: element.color,
+                expireCount: 0,
+                key: element.key,
+                name: name,
+                img: element.img,
+                startCount: element.secs,
+                warningCount: 0,
+                startTime: createTimestamp()
             }
+            processTimerEvent(containerDiv, newTimer);
+            update();
         }
-    });
+    }
 }
 
 var isEffect = /You gain the effect of .*/g;
 var isCast = /\w+ cast /g;
 var isUse = /\w+ uses? /g;
 
+const CHANGE_PRIMARY_PLAYER = 02;
+const EFFECT_GAINED = 26;
+
+const MOB_SUBID = "40";
+const PLAYER_SUBID = "10";
+
+var playerName = "";
+
 document.addEventListener('onLogLine', function (event) {
     if (event.detail == undefined) return;
     var body = eval(event.detail);
-    if (body.length < 4) return ;
-    var message = body[4];
-    if (isEffect.test(message)) {
-        checkForTriggers(message, ENTRY_EFFECT);
-    } else if (isCast.test(message)) {
-        checkForTriggers(message, ENTRY_CAST);
-    } else if (isUse.test(message)) {
-        checkForTriggers(message, ENTRY_USE);
+
+
+    const type = body[0];
+
+
+    // https://github.com/quisquous/cactbot/blob/main/docs/LogGuide.md#1a-networkbuff
+    // https://github.com/quisquous/cactbot/blob/main/docs/LogGuide.md
+
+    if (type == CHANGE_PRIMARY_PLAYER) {
+        if (body.length < 3) return;
+        playerName = body[3];
+    } else if (type==EFFECT_GAINED) {
+        if (body.length < 7) return;
+
+        const action = parseInt(body[2], 16);
+        const name = body[3];
+        const target = body[7];
+        const unitIdSub = target.substring(0, 2);
+
+        if ( unitIdSub == MOB_SUBID) {
+            checkForTriggers(action, name, ENTRY_ENEMY_EFFECT);
+        }else if (unitIdSub == PLAYER_SUBID){
+            const player = body[8];
+            if(player == playerName) {
+                checkForTriggers(action, name, ENTRY_PLAYER_EFFECT);
+            }
+        }
     }
 })
 
@@ -274,8 +299,4 @@ function getElapsedSeconds(startTime) {
     var jsTime = jsDate.getTime() - offsetMinutes * 60 * 1000;
 
     return (jsTime - startTime) / 1000;
-}
-
-function formatTimeSpan(seconds) {
-
 }

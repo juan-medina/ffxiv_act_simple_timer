@@ -1,11 +1,11 @@
 * {
     font-family: "Meiryo";
-    font-size: 17px;
+    font-size: 1.5em;
 }
 
 .buff {
-    border: 0px;            
-    height: 24px;
+    border: 0px;
+    height: 2.em;
     vertical-align: middle;
 }
 
@@ -28,17 +28,17 @@ html {
     background-position: bottom right;
     background-repeat: no-repeat;
     box-sizing: border-box;
-    background-color: rgba(0, 0, 150, 0.2);            
+    background-color: rgba(0, 0, 150, 0.2);
 }
 
 * {
     color: #DED7BE;
     text-shadow: -1px 0 2px #795516, 0 1px 2px #795516, 1px 0 2px #795516, 0 -1px 2px #795516;
-    font-weight: 300;    
+    font-weight: 300;
 }
 
 #title {
-    font-size: 21px;
+    font-size: 2.em;
 }
 
 .progress-outer {
@@ -72,7 +72,7 @@ html {
     width: 100%;
     display: table;
     table-layout: fixed;
-    height: 100%;            
+    height: 100%;
 }
 
 .label-left {
@@ -88,7 +88,7 @@ html {
     text-align: right;
     vertical-align: middle;
     padding-right: 0.5em;
-    
+
     color: #E2EBF5;
     text-shadow: -1px 0 3px #217AA2, 0 1px 3px #217AA2, 1px 0 3px #217AA2, 0 -1px 3px #217AA2;
     font-weight: 300;
