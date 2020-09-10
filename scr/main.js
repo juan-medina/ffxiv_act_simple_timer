@@ -42,10 +42,10 @@ var isCast = /\w+ cast /g;
 var isUse = /\w+ uses? /g;
 
 document.addEventListener('onLogLine', function (event) {
-    if (event.detail.isImported) return;
-    if (event.detail.payload == undefined) return;
-    if (event.detail.payload[2] == undefined) return;
-    var message = event.detail.payload[2];
+    if (event.detail == undefined) return;
+    var body = eval(event.detail);
+    if (body.length < 4) return ;
+    var message = body[4];
     if (isEffect.test(message)) {
         checkForTriggers(message, ENTRY_EFFECT);
     } else if (isCast.test(message)) {
