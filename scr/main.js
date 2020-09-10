@@ -36,10 +36,6 @@ function checkForTriggers(key, name, type, target) {
     }
 }
 
-var isEffect = /You gain the effect of .*/g;
-var isCast = /\w+ cast /g;
-var isUse = /\w+ uses? /g;
-
 const CHANGE_PRIMARY_PLAYER = 02;
 const EFFECT_GAINED = 26;
 
