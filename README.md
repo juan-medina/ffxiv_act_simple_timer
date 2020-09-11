@@ -104,7 +104,7 @@ Now you could move the browser as you will usually do on OBS.
 
 ## Download zip
 
-On github you need to download a zip container this overlay, for this visit :
+On github you need to download a zip containing this overlay, for this visit :
 
 https://github.com/juan-medina/ffxiv_act_simple_timer
 
@@ -154,7 +154,7 @@ Timer when your player get de-buff any mob with Reprisal.
 DebuffMobByOurPlayer(COLOR_MITIGATION, 753, 1193, 2101);
 ```
 
-Each number is an Status id, we do not need to specify duration it will be obtained in the game log. Name the skill name it will be in the game local language. We neither need to provide the icon that is obtained by the overlay via [xivapi](https://xivapi.com).
+Each number is an Status id, we do not need to specify the duration it will be obtained in the game log. The name will be in the game local language. We neither need to provide the icon that is obtained by the overlay via [xivapi](https://xivapi.com).
 
 For finding other Statuses ids you could use this url, changing the name of the status:
 
