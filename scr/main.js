@@ -27,7 +27,7 @@ function checkForTriggers(key, name, secs, type, target) {
                 name: name,
                 img: element.img,
                 startCount: secs,
-                warningCount: 0,
+                warningCount: secs * 0.25,
                 startTime: createTimestamp()
             }
             if (element.img == null) {
@@ -268,7 +268,16 @@ TimerBar.prototype = {
         }
     },
     setBarColor: function (color) {
+        var match = /rgba\((\d+),\s(\d+),\s(\d+),\s([0-9\.]+)\)/g.exec(color);
+
+        var r = Math.round(parseFloat(match[1]) * 0.50);
+        var g = Math.round(parseFloat(match[2]) * 0.50);
+        var b = Math.round(parseFloat(match[3]) * 0.50);
+        var a = parseFloat(match[4]);
+        var darkColor = "rgba(" + [r, g, b, a].join(',') +")";
+
         this.barElement.children[0].style.backgroundColor = color;
+        this.barElement.children[0].style.darkColor = darkColor;
     },
     setBarHeight: function (height) {
         this.barElement.style.height = height;
@@ -296,7 +305,7 @@ TimerBar.prototype = {
         barDiv.style.width = percentage.toFixed(2) + "%";
 
         setTimeout(function (barDiv) {
-            barDiv.style.backgroundColor = "#FF0000";
+            barDiv.style.backgroundColor = barDiv.style.darkColor;
         }, Math.max(0, (this.spellTimer.getRemaining() - this.spellTimer.warningCount) * 1000), barDiv);
 
         $(barDiv).animate(
