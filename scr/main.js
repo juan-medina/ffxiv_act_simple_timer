@@ -15,7 +15,7 @@ function createTimestamp() {
     return jsTime;
 }
 
-function checkForTriggers(key, name, type, target) {
+function checkForTriggers(key, name, secs, type, target) {
     if (entries[key] != null) {
         if (entries[key].type == type) {
             var element = entries[key];
@@ -26,7 +26,7 @@ function checkForTriggers(key, name, type, target) {
                 target: target,
                 name: name,
                 img: element.img,
-                startCount: element.secs,
+                startCount: secs,
                 warningCount: 0,
                 startTime: createTimestamp()
             }
@@ -63,15 +63,16 @@ document.addEventListener('onLogLine', function (event) {
 
         const action = parseInt(body[2], 16);
         const name = body[3];
+        const secs = parseFloat(body[4])
         const target = body[7];
         const unitIdSub = target.substring(0, 2);
 
         if ( unitIdSub == MOB_SUBID) {
-            checkForTriggers(action, name, ENTRY_ENEMY_EFFECT, target);
+            checkForTriggers(action, name, secs, ENTRY_ENEMY_EFFECT, target);
         }else if (unitIdSub == PLAYER_SUBID){
             const player = body[8];
             if(player == playerName) {
-                checkForTriggers(action, name, ENTRY_PLAYER_EFFECT, target);
+                checkForTriggers(action, name, secs, ENTRY_PLAYER_EFFECT, target);
             }
         }
     }
