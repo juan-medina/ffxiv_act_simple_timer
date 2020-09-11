@@ -30,8 +30,19 @@ function checkForTriggers(key, name, secs, type, target) {
                 warningCount: 0,
                 startTime: createTimestamp()
             }
-            processTimerEvent(containerDiv, newTimer);
-            update();
+            if (element.img == null) {
+                fetch(`https://xivapi.com/Status/${key}`, {
+                    mode: "cors"
+                }).then(response => response.json()).then(data => {
+                    element.img = `https://xivapi.com${data.Icon}`;
+                    newTimer.img = element.img;
+                    processTimerEvent(containerDiv, newTimer);
+                    update();
+                });
+            } else {
+                processTimerEvent(containerDiv, newTimer);
+                update();
+            }
         }
     }
 }
@@ -92,11 +103,6 @@ function hideResizeHandle() {
 var containerDiv;
 
 function initialize() {
-    entries.forEach(element => {
-        var preLoadImage = new Image();
-        preLoadImage.src = element.img;
-    });
-
     containerDiv = document.getElementById('spelltimer');
     update();
     setInterval("update()", 500);
