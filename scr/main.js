@@ -1,13 +1,3 @@
-document.addEventListener("onOverlayStateUpdate", function (e) {
-    var titleDiv = document.getElementById('title');
-    titleDiv.locked = e.detail.isLocked;
-    if (!e.detail.isLocked) {
-        displayResizeHandle();
-    } else {
-        hideResizeHandle();
-    }
-});
-
 function createTimestamp() {
     var jsDate = new Date();
     var offsetMinutes = new Date().getTimezoneOffset();
@@ -47,6 +37,7 @@ function checkForTriggers(key, name, secs, type, target) {
     }
 }
 
+// https://github.com/quisquous/cactbot/blob/main/docs/LogGuide.md
 const CHANGE_PRIMARY_PLAYER = 02;
 const EFFECT_GAINED = 26;
 
@@ -55,43 +46,79 @@ const PLAYER_SUBID = "10";
 
 var playerName = "";
 
-document.addEventListener('onLogLine', function (event) {
-    if (event.detail == undefined) return;
-    var body = eval(event.detail);
+function handleLock(locked) {
+    var titleDiv = document.getElementById('title');
+    titleDiv.locked = locked;
+    if (locked) {
+        hideResizeHandle();
+    } else {
+        displayResizeHandle();
+    }
+}
 
+function listenToOverlayPlugin(callback) {
+    document.addEventListener('onLogLine', function(event){
+        if (event.detail == undefined) return;
+        var detail = eval(event.detail);
+        callback(detail);
+    });
+    document.addEventListener("onOverlayStateUpdate", function (e) {
+        handleLock(e.detail.isLocked);
+    });
+}
 
-    const type = body[0];
+function listenActWebSocket(callback) {
+    handleLock(true);
+	const url = new URLSearchParams(window.location.search);
+    const wsUri = `${url.get("HOST_PORT")}BeforeLogLineRead` || undefined;
+	const ws = new WebSocket(wsUri);
+	ws.onerror = () => ws.close();
+	ws.onclose = () =>
+		setTimeout(() => {
+			listenActWebSocket(callback);
+		}, 1000);
+	ws.onmessage = function(e, m) {
+		if (e.data === ".") return ws.send(".");
+        const obj = JSON.parse(e.data);
+        if (obj.msgtype === "Chat") {
+			return callback(obj.msg.split("|"));
+        }
+	}
 
+	return () => {
+		ws.close()
+	}
+}
 
-    // https://github.com/quisquous/cactbot/blob/main/docs/LogGuide.md#1a-networkbuff
-    // https://github.com/quisquous/cactbot/blob/main/docs/LogGuide.md
+function onLogLine(detail) {
+    const type = detail[0];
 
     if (type == CHANGE_PRIMARY_PLAYER) {
-        if (body.length < 3) return;
-        playerName = body[3];
+        if (detail.length < 3) return;
+        playerName = detail[3];
     } else if (type==EFFECT_GAINED) {
-        if (body.length < 7) return;
+        if (detail.length < 7) return;
 
-        const action = parseInt(body[2], 16);
-        const name = body[3];
-        const secs = parseFloat(body[4])
-        const target = body[7];
+        const action = parseInt(detail[2], 16);
+        const name = detail[3];
+        const secs = parseFloat(detail[4])
+        const target = detail[7];
         const unitIdSub = target.substring(0, 2);
 
         if ( unitIdSub == MOB_SUBID) {
-            const source = body[6];
+            const source = detail[6];
             checkForTriggers(action, name, secs, ENTRY_ENEMY_EFFECT_ANY_PLAYER, target);
             if (source != null && source == playerName) {
                 checkForTriggers(action, name, secs, ENTRY_ENEMY_EFFECT_OUR_PLAYER, target);
             }
         }else if (unitIdSub == PLAYER_SUBID){
-            const player = body[8];
+            const player = detail[8];
             if(player == playerName) {
                 checkForTriggers(action, name, secs, ENTRY_PLAYER_EFFECT, target);
             }
         }
     }
-})
+}
 
 function displayResizeHandle() {
     document.documentElement.classList.add("resizeHandle");
@@ -106,7 +133,16 @@ function hideResizeHandle() {
 
 var containerDiv;
 
+const getHost = () => /HOST_PORT=(wss?:\/\/.+)/.exec(window.location.search);
+
 function initialize() {
+
+    if (!getHost()) {
+        listenToOverlayPlugin(onLogLine);
+    }else {
+        listenActWebSocket(onLogLine);
+    }
+
     containerDiv = document.getElementById('spelltimer');
     update();
     setInterval("update()", 500);
