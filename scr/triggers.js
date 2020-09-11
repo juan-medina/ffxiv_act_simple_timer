@@ -1,5 +1,6 @@
 const ENTRY_PLAYER_EFFECT = "player_effect";
-const ENTRY_ENEMY_EFFECT = "enemy_effect";
+const ENTRY_ENEMY_EFFECT_ANY_PLAYER = "enemy_effect_any";
+const ENTRY_ENEMY_EFFECT_OUR_PLAYER = "enemy_effect_our";
 
 const COLOR_DPS = "rgba(255, 0, 0, 0.4)";
 const COLOR_MITIGATION = "rgba(0, 0, 255, 0.4)";
@@ -14,77 +15,85 @@ var TimerEntry = (function (key, color, type) {
 
 var entries = [];
 
-function PlayerEffect(color, ...keys) {
+function BuffOurPlayer(color, ...keys) {
     for (var key of keys) {
         entries[key] = new TimerEntry(key, color, ENTRY_PLAYER_EFFECT);
     }
 };
 
-function EnemyEffect(color, ...keys) {
+function DebuffMobByAnyPlayer(color, ...keys) {
     for (var key of keys) {
-        entries[key] = new TimerEntry(key, color, ENTRY_ENEMY_EFFECT);
+        entries[key] = new TimerEntry(key, color, ENTRY_ENEMY_EFFECT_ANY_PLAYER);
     }
 };
 
+function DebuffMobByOurPlayer(color, ...keys) {
+    for (var key of keys) {
+        entries[key] = new TimerEntry(key, color, ENTRY_ENEMY_EFFECT_OUR_PLAYER);
+    }
+};
 
 //https://xivapi.com/search?indexes=status&string=Technical%20Finish
 
 //Party Buffs
 // Trick Attack
-EnemyEffect(COLOR_DPS, 2041);
+DebuffMobByAnyPlayer(COLOR_DPS, 2041);
 
 // Technical Finish
-PlayerEffect(COLOR_DPS, 1822, 2050);
+BuffOurPlayer(COLOR_DPS, 1822, 2050);
 
 // Battle Voice
-PlayerEffect(COLOR_DPS, 141);
+BuffOurPlayer(COLOR_DPS, 141);
 
 // Brotherhood
-PlayerEffect(COLOR_DPS, 1182, 1185, 2173, 2174);
+BuffOurPlayer(COLOR_DPS, 1182, 1185, 2173, 2174);
 
 // Embolden
-PlayerEffect(COLOR_DPS, 1239, 1297, 2282);
+BuffOurPlayer(COLOR_DPS, 1239, 1297, 2282);
 
 //DCN
 // Devilment
-PlayerEffect(COLOR_DPS, 1825);
+BuffOurPlayer(COLOR_DPS, 1825);
 
 //PLD
 // Requiescat
-PlayerEffect(COLOR_DPS, 1368, 1369);
+BuffOurPlayer(COLOR_DPS, 1368, 1369);
 
 // Sentinel
-PlayerEffect(COLOR_MITIGATION, 74);
+BuffOurPlayer(COLOR_MITIGATION, 74);
 
 // Sheltron
-PlayerEffect(COLOR_MITIGATION, 728, 1856);
+BuffOurPlayer(COLOR_MITIGATION, 728, 1856);
 
 // Hallowed Ground
-PlayerEffect(COLOR_MITIGATION, 82, 1302, 2287);
+BuffOurPlayer(COLOR_MITIGATION, 82, 1302, 2287);
 
 // Reprisal
-EnemyEffect(COLOR_MITIGATION, 753, 1193, 2101);
+DebuffMobByOurPlayer(COLOR_MITIGATION, 753, 1193, 2101);
 
 // Fight or Flight
-PlayerEffect(COLOR_DPS, 76);
+BuffOurPlayer(COLOR_DPS, 76);
 
 // Goring Blade
-EnemyEffect(COLOR_DPS, 725);
+DebuffMobByOurPlayer(COLOR_DPS, 725);
 
 //WHM
 // Thin Air
-PlayerEffect(COLOR_HEAL, 1217);
+BuffOurPlayer(COLOR_HEAL, 1217);
 
 // Presence of Mind
-PlayerEffect(COLOR_HEAL, 157);
+BuffOurPlayer(COLOR_HEAL, 157);
 
 // Temperance
-PlayerEffect(COLOR_HEAL, 1872, 1873, 2037, 2038);
+BuffOurPlayer(COLOR_HEAL, 1872, 1873, 2037, 2038);
+
+// Dia
+DebuffMobByOurPlayer(COLOR_DPS, 313, 424, 617, 1605, 1634, 1692, 1722, 1748, 1871, 2035);
 
 //Healers
 // Lucid Dreaming
-PlayerEffect(COLOR_HEAL, 1204);
+BuffOurPlayer(COLOR_HEAL, 1204);
 
 //Tanks
 // Rampart
-PlayerEffect(COLOR_MITIGATION, 71, 1191, 1978);
+BuffOurPlayer(COLOR_MITIGATION, 71, 1191, 1978);

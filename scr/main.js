@@ -79,7 +79,11 @@ document.addEventListener('onLogLine', function (event) {
         const unitIdSub = target.substring(0, 2);
 
         if ( unitIdSub == MOB_SUBID) {
-            checkForTriggers(action, name, secs, ENTRY_ENEMY_EFFECT, target);
+            const source = body[6];
+            checkForTriggers(action, name, secs, ENTRY_ENEMY_EFFECT_ANY_PLAYER, target);
+            if (source != null && source == playerName) {
+                checkForTriggers(action, name, secs, ENTRY_ENEMY_EFFECT_OUR_PLAYER, target);
+            }
         }else if (unitIdSub == PLAYER_SUBID){
             const player = body[8];
             if(player == playerName) {
@@ -199,7 +203,6 @@ function processTimerEvent(container, event) {
 
 function duplicated(spellTimer) {
     for (var i = 0; i < bars.length; i++) {
-        console.dir()
         if ( (bars[i].spellTimer.name == spellTimer.name) && (bars[i].spellTimer.target == spellTimer.target ) ) {
             return true;
         }
