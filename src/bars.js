@@ -108,7 +108,7 @@ function checkForRemoval(action, name, target, source) {
         if ( (bars[i].spellTimer.name == name) && (bars[i].spellTimer.target == target )
                 && (bars[i].spellTimer.source == source )) {
             bars[i].spellTimer.startCount = -1;
-            update()
+            update();
             return;
         }
     }

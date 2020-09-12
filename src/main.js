@@ -75,7 +75,7 @@ function onLogLine(detail) {
         const unitIdSub = target.substring(0, 2);
 
         if ( (secs == NaN) || (secs <= 0) || (secs >= 600) ) {
-            return
+            return;
         }
 
         //console.dir("gain effect: " + name + " source: "+ source + " target: "+ target + " action: " +  action + " secs: " + secs);
