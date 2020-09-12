@@ -27,7 +27,7 @@ function createTimestamp() {
     return jsTime;
 }
 
-function checkForTriggers(key, name, secs, type, target) {
+function checkForTriggers(key, name, secs, type, target, source) {
     if (entries[key] != null) {
         if (entries[key].type == type) {
             var element = entries[key];
@@ -36,6 +36,7 @@ function checkForTriggers(key, name, secs, type, target) {
                 expireCount: 0,
                 key: element.key,
                 target: target,
+                source: source,
                 name: name,
                 img: element.img,
                 startCount: secs,

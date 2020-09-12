@@ -89,7 +89,8 @@ function processTimerEvent(container, event) {
 
 function duplicated(spellTimer) {
     for (var i = 0; i < bars.length; i++) {
-        if ( (bars[i].spellTimer.name == spellTimer.name) && (bars[i].spellTimer.target == spellTimer.target ) ) {
+        if ( (bars[i].spellTimer.name == spellTimer.name) && (bars[i].spellTimer.target == spellTimer.target )
+                && (bars[i].spellTimer.source == spellTimer.source )) {
             return true;
         }
     }
@@ -111,6 +112,7 @@ var SpellTimer = (function (event) {
     this.expireCount = event.expireCount;
     this.key = event.key;
     this.target = event.target;
+    this.source = event.source;
     this.name = event.name;
     this.startCount = event.startCount;
     this.tooltip = event.tooltip;

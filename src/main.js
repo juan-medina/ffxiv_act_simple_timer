@@ -67,19 +67,20 @@ function onLogLine(detail) {
         const action = parseInt(detail[2], 16);
         const name = detail[3];
         const secs = parseFloat(detail[4])
+        const source = detail[5];
+        const sourceName = detail[6];
         const target = detail[7];
+        const targetName = detail[8];
         const unitIdSub = target.substring(0, 2);
 
         if ( unitIdSub == MOB_SUBID) {
-            const source = detail[6];
-            checkForTriggers(action, name, secs, ENTRY_ENEMY_EFFECT_ANY_PLAYER, target);
-            if (source != null && source == playerName) {
-                checkForTriggers(action, name, secs, ENTRY_ENEMY_EFFECT_OUR_PLAYER, target);
+            checkForTriggers(action, name, secs, ENTRY_ENEMY_EFFECT_ANY_PLAYER, target, source);
+            if (sourceName == playerName) {
+                checkForTriggers(action, name, secs, ENTRY_ENEMY_EFFECT_OUR_PLAYER, target, source);
             }
         }else if (unitIdSub == PLAYER_SUBID){
-            const player = detail[8];
-            if(player == playerName) {
-                checkForTriggers(action, name, secs, ENTRY_PLAYER_EFFECT, target);
+            if(targetName == playerName) {
+                checkForTriggers(action, name, secs, ENTRY_PLAYER_EFFECT, target, source);
             }
         }
     }
