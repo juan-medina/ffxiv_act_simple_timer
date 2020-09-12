@@ -130,7 +130,7 @@ Now on ACT go to you overlay and click on the *...* where the URL is and browse 
 
 ## Edit the triggers
 
-The triggers are located in the file [triggers.js](scr/triggers.js) in the scr folder. You could add and remove triggers here.
+The triggers are located in the file [triggers.js](src/triggers.js) in the scr folder. You could add and remove triggers here.
 
 ## Triggers Examples
 
