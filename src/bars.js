@@ -56,7 +56,7 @@ function processTimerEvent(container, event) {
             var remaining = event.getRemaining();
             var timerText;
             if (remaining <= 0) {
-                timerText = "READY";
+                timerText = "";
             } else {
                 timerText = event.getRemaining().toFixed(0) + "s";
             }
@@ -95,6 +95,23 @@ function duplicated(spellTimer) {
         }
     }
     return false;
+}
+
+function checkForRemoval(action, name, target, source) {
+    if (entries[action] == null) {
+        return;
+    }
+    for (var i = 0; i < bars.length; i++) {
+        if ( (bars[i] == null) || (bars[i].uniqueName==null) || bars[i].spellTimer.getIsExpired() ) {
+            continue;
+        }
+        if ( (bars[i].spellTimer.name == name) && (bars[i].spellTimer.target == target )
+                && (bars[i].spellTimer.source == source )) {
+            bars[i].spellTimer.startCount = -1;
+            update()
+            return;
+        }
+    }
 }
 
 function getTimerBarFromList(spellTimer) {
