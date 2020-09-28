@@ -89,7 +89,7 @@ function processTimerEvent(container, event) {
 
 function duplicated(spellTimer) {
     for (var i = 0; i < bars.length; i++) {
-        if ( (bars[i].spellTimer.name == spellTimer.name) && (bars[i].spellTimer.target == spellTimer.target )
+        if ( (bars[i].spellTimer.key == spellTimer.key) && (bars[i].spellTimer.target == spellTimer.target )
                 && (bars[i].spellTimer.source == spellTimer.source )) {
             return true;
         }
@@ -97,15 +97,15 @@ function duplicated(spellTimer) {
     return false;
 }
 
-function checkForRemoval(action, name, target, source) {
-    if (entries[action] == null) {
+function checkForRemoval(key, name, target, source) {
+    if (entries[key] == null) {
         return;
     }
     for (var i = 0; i < bars.length; i++) {
         if ( (bars[i] == null) || (bars[i].uniqueName==null) || bars[i].spellTimer.getIsExpired() ) {
             continue;
         }
-        if ( (bars[i].spellTimer.name == name) && (bars[i].spellTimer.target == target )
+        if ( (bars[i].spellTimer.key == key) && (bars[i].spellTimer.target == target )
                 && (bars[i].spellTimer.source == source )) {
             bars[i].spellTimer.startCount = -1;
             update();
