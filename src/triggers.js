@@ -77,6 +77,9 @@ BuffOurPlayer(COLOR_DPS, 76);
 // Goring Blade
 DebuffMobByOurPlayer(COLOR_DPS, 725);
 
+// Sword Oath
+BuffOurPlayer(COLOR_DPS, 78, 381, 1902, 1991);
+
 //WHM
 // Thin Air
 BuffOurPlayer(COLOR_HEAL, 1217);
